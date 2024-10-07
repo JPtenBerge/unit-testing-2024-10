@@ -13,6 +13,7 @@ public class AutocompleterTests
 {
     List<Car> _data;
     Autocompleter<Car> _sut;
+    NepNavigateService _nepNavigateService;
 
     [TestInitialize]
     public void Init()
@@ -26,7 +27,8 @@ public class AutocompleterTests
            new() { Make = "Mercedes", Model = "CLA", ProductionYear = 2024 },
            new() { Make = "Hyuandai", Model = "i20", ProductionYear = 2024 },
         ];
-        _sut = new Autocompleter<Car>();
+        _nepNavigateService = new NepNavigateService();
+        _sut = new Autocompleter<Car>(_nepNavigateService);
         _sut.Data = _data;
     }
 
@@ -95,51 +97,11 @@ public class AutocompleterTests
     }
 
     [TestMethod]
-    public void Next_NothingHighlighted_HighlightFirstSuggestion()
+    public void MyTestMethod()
     {
-        // Arrange
-        _sut.Query = "e";
-        _sut.Autocomplete();
-
-        // Act
         _sut.Next();
 
-        // Assert
-        _sut.HighlightedSuggestionIndex.Should().Be(0);
-    }
-
-    [TestMethod]
-    public void Next_FirstSuggestionHighlighted_HighlightSecondSuggestion()
-    {
-        // Arrange
-        _sut.Query = "e";
-        _sut.Autocomplete();
-
-        // Act
-        _sut.Next();
-        _sut.Next();
-
-        // Assert
-        _sut.HighlightedSuggestionIndex.Should().Be(1);
-    }
-
-    [TestMethod]
-    public void Next_LastSuggestionHighlighted_HighlightFirstSuggestion()
-    {
-        // Arrange
-        _sut.Query = "e";
-        _sut.Autocomplete();
-
-        // Act
-        foreach (var suggestion in _sut.Suggestions)
-        {
-            _sut.Next();
-        }
-        _sut.Next();
-
-        // Assert
-        _sut.HighlightedSuggestionIndex.Should().Be(0);
-
-        "hoi".Should().Be("doei");
+        _nepNavigateService.HasNextBeenCalled.Should().BeTrue();
+        _sut.HighlightedSuggestionIndex.Should().Be(12);
     }
 }

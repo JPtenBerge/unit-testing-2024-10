@@ -13,6 +13,12 @@ public class Autocompleter<T>
     public List<T> Data { get; set; }
     public List<T> Suggestions { get; set; }
     public int HighlightedSuggestionIndex { get; set; } = -1;
+    private INavigateService _navigateService;
+
+    public Autocompleter(INavigateService navigateService)
+    {
+        _navigateService = navigateService;
+    }
 
     public void Autocomplete()
     {
@@ -36,6 +42,6 @@ public class Autocompleter<T>
 
     public void Next()
     {
-        HighlightedSuggestionIndex = (HighlightedSuggestionIndex + 1) % Suggestions.Count;
+        HighlightedSuggestionIndex = _navigateService.Next(Suggestions, HighlightedSuggestionIndex);
     }
 }
