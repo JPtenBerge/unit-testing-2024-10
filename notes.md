@@ -175,6 +175,30 @@ Meestal praat men over mocks. Zo zijn er geen test double frameworks, maar zat m
   await MijnInput.FocusAsync();
   ```
 
+## Mockframeworks
+
+- Moq
+- FakeItEasy
+- NSubstitute
+- (dood) RhinoMocks
+
+```cs
+// Moq
+var mock = new Mock<IMijnService>();
+mock.Setup(x => x.GetProductById(It.IsAny<int>())).Returns(new Product());
+mock.Verify(x => x.GetProductById(It.IsAny<int>()), Times.Once());
+
+// FIE
+var mock = A.Fake<IMijnService>();
+A.CallTo(x => x.GetProductById(A<int>._)).Returns(new Product());
+A.CallTo(x => x.GetProductById(A<int>._)).MustHaveHappenedOnceExactly();
+
+// NSubstitute
+var mock = Substitute.For<IMijnService>();
+mock.GetProductById(Arg.Any<int>()).Returns(new Product());
+mock.Received(1).GetProductById(Arg.Any<int>());
+```
+
 ## Worst practices
 
 ```cs
