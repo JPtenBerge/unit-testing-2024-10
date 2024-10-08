@@ -21,4 +21,13 @@ public class Calculator
     {
         Result -= x;
     }
+
+    public void Divide(int x)
+    {
+        if (x == 0)
+        {
+            throw new ArgumentException("Cannot divide by zero");
+        }
+        Result /= x;
+    }
 }
