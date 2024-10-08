@@ -207,6 +207,32 @@ mock.GetProductById(Arg.Any<int>()).Returns(new Product());
 mock.Received(1).GetProductById(Arg.Any<int>());
 ```
 
+## Mutation testing
+
+Testing your tests. Het past je productiecode aan.
+
+```cs
+if (x > 4) { // productiecode
+	...
+}
+```
+```cs
+if (x < 4) { // mutant
+	...
+}
+if (x == 4) { // mutant
+	...
+}
+if (x >= 4) { // mutant
+	...
+}
+if (x > 4000) { // mutant
+	...
+}
+```
+
+Zie [Getting started](https://stryker-mutator.io/docs/stryker-net/getting-started/).
+
 ## Worst practices
 
 ```cs
