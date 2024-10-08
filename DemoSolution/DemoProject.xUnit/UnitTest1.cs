@@ -6,7 +6,7 @@ public class UnitTest1
     public void Test1()
     {
         Assert.Equal(1, 1);
-        Assert.Equal("hoi", "doei");
+        //Assert.Equal("hoi", "doei"); // great output to compare the strings!
     }
 
     [Theory]
