@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ public class AutocompleterTests
 {
     List<Car> _data;
     Autocompleter<Car> _sut;
-    NepNavigateService _nepNavigateService;
+    Mock<INavigateService> _mockNavigateService;
 
     [TestInitialize]
     public void Init()
@@ -27,8 +28,8 @@ public class AutocompleterTests
            new() { Make = "Mercedes", Model = "CLA", ProductionYear = 2024 },
            new() { Make = "Hyuandai", Model = "i20", ProductionYear = 2024 },
         ];
-        _nepNavigateService = new NepNavigateService();
-        _sut = new Autocompleter<Car>(_nepNavigateService);
+        _mockNavigateService = new Mock<INavigateService>(MockBehavior.Strict);
+        _sut = new Autocompleter<Car>(_mockNavigateService.Object);
         _sut.Data = _data;
     }
 
@@ -99,9 +100,13 @@ public class AutocompleterTests
     [TestMethod]
     public void MyTestMethod()
     {
+        _sut.Query = "e";
+        _sut.Autocomplete();
+        _mockNavigateService.Setup(x => x.Next(It.IsNotNull<List<Car>>(), It.IsAny<int>())).Returns(12);
+
         _sut.Next();
 
-        _nepNavigateService.HasNextBeenCalled.Should().BeTrue();
+        _mockNavigateService.Verify(x => x.Next(It.IsNotNull<List<Car>>(), It.IsAny<int>()), Times.Once());
         _sut.HighlightedSuggestionIndex.Should().Be(12);
     }
 }
