@@ -160,6 +160,14 @@ Test double (vergelijkbaar met "stunt double")
 
 Meestal praat men over mocks. Zo zijn er geen test double frameworks, maar zat mock frameworks.
 
+&nbsp;
+
+3 hoofdingrediënten van het werken met mocks
+
+- `new Mock<I...>();`
+- `.Setup().Returns()`  `.Throws<>();`
+- `.Verify()`
+
 ### Zijn er zaken die je niet kan mocken?
 
 - lastig: statics. `DateTime.Now`, `File.AppendAllTextAsync()`, etc.
